@@ -1,7 +1,6 @@
 # __BUMO区块链使用文档__
 
 <!-- TOC -->
-
 - [__编译__](#编译)
     - [Linux](#linux)
     - [MAC](#mac)
@@ -13,14 +12,14 @@
     - [__运行__](#运行)
     - [__运行状态__](#运行状态)
     - [__配置__](#配置)
-        - [config.json](#config.json)
+        - [config.json](#configjson)
             - [数据存储](#数据存储)
             - [节点间网络通信](#节点间网络通信)
             - [WEB API 配置](#web-api-配置)
             - [WebSocket API 配置](#websocket-api-配置)
             - [区块配置](#区块配置)
+            - [创世区块](#创世区块)
             - [日志配置](#日志配置)
-            - [共识配置](#共识配置)
             - [多节点配置说明](#多节点配置说明)
             - [节点间网络通信](#节点间网络通信)
             - [共识参数](#共识参数)
@@ -29,7 +28,6 @@
             - [加密数据配置](#加密数据配置)
             - [节点间网络通信](#节点间网络通信)
             - [节点间网络通信](#节点间网络通信)
-
 - [__运维__](#运维)
     - [服务启动与停止](#服务启动与停止)
     - [查看系统详细状态](#查看系统详细状态)
@@ -38,28 +36,7 @@
     - [创建硬分叉](#创建硬分叉)   
     - [数据库存储](#数据库存储)   
 
-
-
-
-            
-            
-            
-            
-             
-
-            
-            
-        
-   
-
-
-
-    
-
-
-
 <!-- /TOC -->
-
 
 ## __编译__
 ### Linux
@@ -233,13 +210,26 @@ make install
 
 ```json
     "ledger":{
-        "genesis_account":"buQs9npaCq9mNFZG18qu88ZcmXYqd6bqpTU3",//创世账号，同一条链上的每一个节点都必须相同
+        "validation_address":"buQBwe7LZYCYHfxiEGb1RE9XC9kN2qrGXWCY",//验证节点地址，同步节点或者钱包不需要配置
+        "validation_private_key": "66932f19d5be465ea9e7cfcb3ea7326d81953b9f99bc39ddb437b5367937f234b866695e1aae9be4bae27317c9987f80be882ae3d2535d4586deb3645ecd7e54", //验证节点私钥，同步节点或者钱包不需要配置
         "max_trans_per_ledger":1000,
         "max_ledger_per_message":5,
         "max_trans_in_memory":2000,
         "max_apply_ledger_per_round":3
     }
 ```
+#### 创世区块
+```json
+   "genesis": {
+        "account": "buQs9npaCq9mNFZG18qu88ZcmXYqd6bqpTU3", //创世区块地址
+        "fees": {
+            "base_reserve": 10000000,  //账号最低预留费
+            "byte_fee": 1000           //字节费
+        },
+        "validators": ["buQBwe7LZYCYHfxiEGb1RE9XC9kN2qrGXWCY"] //验证节点区块列表
+    }
+```
+    同一个区块链上的 `genesis` 配置，必须保持一致
 
 ##### 日志配置
 
@@ -251,18 +241,6 @@ make install
         "time_capacity":1,
         "size_capacity":10,
         "expire_days":10
-    }
-```
-
-##### 共识配置
-
-```json
-    "validation":{
-		"address": "buQdEwCroM2PaMSTWFK4XQ63AVMtKDqRdz3g",
-		"node_private_key": "01ab35a14935d51faf48f51c3bfd1e0478e83d21d378f3bc92332dbbee5b180b9e122475517da2651227ce4a8bb37e2621c4611a889a8d7e45679efe881d56f2",
-		"validators": [
-			"buQdEwCroM2PaMSTWFK4XQ63AVMtKDqRdz3g"
-		]
     }
 ```
 
